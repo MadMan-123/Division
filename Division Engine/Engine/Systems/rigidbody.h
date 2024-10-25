@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../Core/maths.h"
 
-#define GRAVITATIONAL_PULL -9.81f
+#define GRAVITATIONAL_PULL 0.0f
 
 typedef struct
 {

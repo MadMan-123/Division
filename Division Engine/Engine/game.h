@@ -18,7 +18,7 @@ public:
 	virtual bool update(float dt) = 0;
 	virtual bool render(float dt) = 0;
 	virtual bool physics(float dt) = 0;
-	int width = 512, height = 256;
+	int width = 256, height = 256;
 	const char* name = "Test bed";
 
 	

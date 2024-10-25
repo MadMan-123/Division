@@ -35,6 +35,7 @@ bool Game::gameRun()
 			shouldRun = false;
 		}
 
+		physicsUpdate(dt);
 		
 		swapBuffers(GFX);
 
