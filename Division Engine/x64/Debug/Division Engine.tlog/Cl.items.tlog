@@ -1,4 +1,8 @@
-C:\Users\Madoc\Desktop\Lab1C++\Division Engine\Engine\game.cpp;C:\Users\Madoc\Desktop\Lab1C++\Division Engine\x64\Debug\game.obj
-C:\Users\Madoc\Desktop\Lab1C++\Division Engine\Engine\graphics.cpp;C:\Users\Madoc\Desktop\Lab1C++\Division Engine\x64\Debug\graphics.obj
-C:\Users\Madoc\Desktop\Lab1C++\Division Engine\Engine\windows.cpp;C:\Users\Madoc\Desktop\Lab1C++\Division Engine\x64\Debug\windows.obj
-C:\Users\Madoc\Desktop\Lab1C++\Division Engine\Src\main.cpp;C:\Users\Madoc\Desktop\Lab1C++\Division Engine\x64\Debug\main.obj
+C:\Users\Madoc\Desktop\Division Engine\Division Engine\Engine\Core\arena.cpp;C:\Users\Madoc\Desktop\Division Engine\Division Engine\x64\Debug\arena.obj
+C:\Users\Madoc\Desktop\Division Engine\Division Engine\Engine\Core\ECS.cpp;C:\Users\Madoc\Desktop\Division Engine\Division Engine\x64\Debug\ECS.obj
+C:\Users\Madoc\Desktop\Division Engine\Division Engine\Engine\Core\input.cpp;C:\Users\Madoc\Desktop\Division Engine\Division Engine\x64\Debug\input.obj
+C:\Users\Madoc\Desktop\Division Engine\Division Engine\Engine\Core\math.cpp;C:\Users\Madoc\Desktop\Division Engine\Division Engine\x64\Debug\math.obj
+C:\Users\Madoc\Desktop\Division Engine\Division Engine\Engine\Core\windows.cpp;C:\Users\Madoc\Desktop\Division Engine\Division Engine\x64\Debug\windows.obj
+C:\Users\Madoc\Desktop\Division Engine\Division Engine\Engine\Game\game.cpp;C:\Users\Madoc\Desktop\Division Engine\Division Engine\x64\Debug\game.obj
+C:\Users\Madoc\Desktop\Division Engine\Division Engine\Engine\Systems\graphics.cpp;C:\Users\Madoc\Desktop\Division Engine\Division Engine\x64\Debug\graphics.obj
+C:\Users\Madoc\Desktop\Division Engine\Division Engine\Src\main.cpp;C:\Users\Madoc\Desktop\Division Engine\Division Engine\x64\Debug\main.obj

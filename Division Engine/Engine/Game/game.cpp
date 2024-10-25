@@ -1,4 +1,4 @@
-#include "game.h"
+#include "../game.h"
 #include <iostream>
 #include <string>
 
@@ -29,11 +29,13 @@ bool Game::gameRun()
 		{
 			shouldRun = false;
 		}
-		
+
 		if (!update(dt))
 		{
 			shouldRun = false;
 		}
+
+		
 		swapBuffers(GFX);
 
 		clear(GFX, transparent);
@@ -81,4 +83,27 @@ int Game::run()
 	//program success
 	return 0;
 
+}
+
+bool Game::physicsUpdate(float dt)
+{
+
+	if(!physics(dt))
+	{
+	}
+    for(int i = 0; i < ecs.entityCount; i++)
+    {
+        if(!ecs.isActive[i])continue;
+
+        //update position
+        ecs.transforms[i].position =
+            v2Sub(
+                v2Add(
+                    ecs.transforms[i].position,
+                    v2Mul(ecs.rigidbodies[i].velocity,dt)),
+                {0,GRAVITATIONAL_PULL * dt}
+                );
+    }
+	
+	return true; 
 }

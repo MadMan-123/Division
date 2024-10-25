@@ -4,7 +4,7 @@
 #include <windows.h>
 #include <windowsx.h>  // param input extraction 
 #include <stdio.h>
-#include "graphics.h"
+#include "../Systems/graphics.h"
 
 static double clockFrequency;
 static LARGE_INTEGER startTime;
@@ -93,7 +93,7 @@ bool platformStart(PlatformState* state, const char* name,int width, int height)
 	//set the name of the window
 	SetWindowTextA(iState->consoleHandle, name);
 	
-	SMALL_RECT windowSize = { 10,10,width,height };
+	SMALL_RECT windowSize = { 10,10,(SHORT)width,(SHORT)height };
 	if (!SetConsoleWindowInfo(iState->hConsole, TRUE, &windowSize))
 	{
 		printf("Console wasnt able to set info correctly");
@@ -200,7 +200,7 @@ LRESULT CALLBACK win32ProcessMessage(HWND hwnd, UINT32 msg, WPARAM w_param, LPAR
 		GraphicsState* state = (GraphicsState*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hwnd, &ps);
-		if (state->shouldRender)
+		if (state != nullptr && state->shouldRender)
 		{
 			
 			//DRAW HERE
@@ -225,7 +225,7 @@ LRESULT CALLBACK win32ProcessMessage(HWND hwnd, UINT32 msg, WPARAM w_param, LPAR
 				for (int x = 0; x < state->width; x++)
 				{
 					Colour current = state->front[y][x];
-					if (pixels == NULL)
+					if (pixels == nullptr)
 						break;
 					pixels[y * state->width + x] = (current.a << 24) | (current.r << 16) | (current.g << 8) | current.b;
 					

@@ -99,6 +99,17 @@ void drawFilledSquare(GraphicsState* GFX, Vec2i pos, int size, Colour colour)
 		drawLine(GFX, { pos.x, pos.y + y }, { pos.x + size - 1, pos.y + y }, colour);
 	}
 }
+void drawFilledSquare(GraphicsState* GFX, Vec2 pos ,Vec2 scale, Colour colour)
+{
+	for(int y = 0; y < scale.y; y++)
+	{
+		for(int x = 0; x < scale.x; x++)
+		{
+			//draw square
+			drawPixel(GFX, { (int)pos.x + x, (int)pos.y + y }, colour);
+		}
+	}
+}
 
 
 void swapBuffers(GraphicsState* state)

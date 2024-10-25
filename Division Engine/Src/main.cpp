@@ -7,27 +7,38 @@ class SpaceInvaders : public Game
 public:
 	bool start() override
 	{
+		Transform transform = {0};
+		transform.scale  = {10,10};
+		Rigidbody rb = {0};
+		for(int i = 0; i < 10; i++)
+		{
+			transform.position.x = rand() % 100;
+			transform.position.y = rand() % 100;
 
+			
+			addEntity(&ecs,transform,rb);
+		}
 		return true;
 	}
 
 	bool update(float dt) override
 	{
-		if (GetAsyncKeyState('W') & 0x8000)
-		{
-			pos.y -= speed * dt;
-		}
-		if (GetAsyncKeyState('S') & 0x8000)
-			pos.y += speed * dt;
 		
-		if (GetAsyncKeyState('D') & 0x8000)
-			pos.x += speed * dt;
 
-		if (GetAsyncKeyState('A') & 0x8000)
-			pos.x -= speed * dt;
+		//mouse
+		if(isInputPressed(1))
+		{
+			for(int i = 0; i < 10; i++)
+			{
+				ecs.rigidbodies[i].velocity = {
+					(float)(rand() % 10),
+					(float)(rand() % 10)
+				};
+			}
+		}
+	
 
-		if (pos.y + 50 > floor)
-			pos.y = floor - 50;
+
 
 
 
@@ -35,25 +46,33 @@ public:
 
 	}
 
+	bool physics(float dt) override
+	{
+		return true;
+	}
 
 	bool render(float dt) override
 	{
 		auto GFX = (GraphicsState*)state.graphicsState;
-		//draw square at pos
-		drawFilledSquare(GFX, {(int)pos.x,(int)pos.y}, 50, green);
-		for (int i = 0; i < 10; i++)
-			drawLine(GFX, { 0, floor + i }, { width, floor + i }, red);
-		
 
-
+		//draw all the entities
+		for(int i = 0; i < ecs.entityCount; i++)
+		{
+			if(ecs.isActive[i])
+			{
+				drawFilledSquare(
+					GFX,
+					ecs.transforms[i].position,
+					ecs.transforms[i].scale,
+					red
+					);
+				
+			}
+		}
 		return true;
 
 	}
 
-private:
-	Vec2 pos{ 10,10 };
-	int floor = height - 10;
-	float speed = 100.0f;
 };
 
 
@@ -68,7 +87,8 @@ int main()
 
 //Big ass TODO list
 //todo:
-//	1. Arena Structure
-//	2. Make ECS system
+//	1. Arena Structure x
+//	2. Make ECS system 
 //	3. rewrite engine with arenas
 //	4. basic collision
+//	5. input system

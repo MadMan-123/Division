@@ -1,5 +1,5 @@
 #pragma once
-#include "maths.h"
+#include "../Core/maths.h"
 
 
 typedef struct {
@@ -31,3 +31,5 @@ void swapBuffers(GraphicsState* state);
 void clearBuffer(GraphicsState* state, Colour** buffer, Colour colour);
 void clear(GraphicsState* state, Colour colour);
 void drawFilledSquare(GraphicsState* GFX, Vec2i pos, int size, Colour colour);
+void drawFilledSquare(GraphicsState* GFX, Vec2 pos, Vec2 scale, Colour colour);
+
