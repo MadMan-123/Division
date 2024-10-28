@@ -61,10 +61,37 @@ public:
 		{
 			ecs.transforms[player].position.x += 100 * dt;
 		}
-	
+
+		if(isInputPressed('E'))
+		{
+			for(int i = 0; i < MAX_BULLETS; i++)
+			{
+				uint32_t currentBullet = bullets[i];
+				if(ecs.isActive[currentBullet])
+					continue;
+
+				ecs.isActive[currentBullet] = true;
+				ecs.transforms[currentBullet].position = ecs.transforms[player].position;
+				ecs.rigidbodies[currentBullet].velocity.y -= 100000 * dt;
+				
+				
+			}
+		}
 
 		
+		//for each bullet
+		for(int i = 0 ; i < MAX_BULLETS;i++)
+		{
+			if(!ecs.isActive[bullets[i]])
+				continue;
 
+			if(ecs.transforms[bullets[i]].position.y < 0)
+			{
+				ecs.transforms[bullets[i]].position.y = 0;
+				ecs.isActive[bullets[i]] = false;
+			}
+				
+		}
 
 
 		return true;
