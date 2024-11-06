@@ -4,7 +4,7 @@
 #include "Core/platform.h"
 #include "Systems/graphics.h"
 #include "Systems/input.h"
-
+#include "Systems/collider.h"
 #include <cstdio>
 
 #include "Systems/rigidbody.h"
@@ -13,6 +13,7 @@
 class Game
 {
 public:
+	virtual ~Game() = default;
 	int run();
 	virtual bool start() = 0;
 	virtual bool update(float dt) = 0;
@@ -30,8 +31,8 @@ private:
 	bool physicsUpdate(float dt);
 	bool shouldRun = true;
 protected:
-	PlatformState state;
-
+	PlatformState pState;
+	GraphicsState* gState;
 
 	// Clock
 };

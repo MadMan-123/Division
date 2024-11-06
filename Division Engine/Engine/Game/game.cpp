@@ -6,18 +6,18 @@
 
 Game::Game()
 {
-	if (!platformStart(&state, name,width,height))
+	if (!platformStart(&pState, name,width,height))
 	{
 		fprintf(stderr, "Cannot start platform state");
 	}
-	initGraphics((GraphicsState*)state.graphicsState,height,width);
+	initGraphics((GraphicsState*)pState.graphicsState,height,width);
 
 }
 
 bool Game::gameRun()
 {
 	double last = platformGetAbsoluteTime();
-	auto GFX = (GraphicsState*)state.graphicsState;
+	gState = (GraphicsState*)pState.graphicsState;
 
 	while (shouldRun)
 	{
@@ -25,7 +25,7 @@ bool Game::gameRun()
 		const float dt = (float)(current - last);
 		last = current;
 
-		if (!platformUpdate(&state))
+		if (!platformUpdate(&pState))
 		{
 			shouldRun = false;
 		}
@@ -37,13 +37,13 @@ bool Game::gameRun()
 
 		physicsUpdate(dt);
 		
-		swapBuffers(GFX);
+		swapBuffers(gState);
 
-		clear(GFX, transparent);
+		clear(gState, transparent);
 
-		GFX->shouldRender = render(dt);
+		gState->shouldRender = render(dt);
 
-		if (!GFX->shouldRender)
+		if (!gState->shouldRender)
 		{
 			shouldRun = false;
 		}
@@ -57,9 +57,12 @@ bool Game::gameRun()
 	}
 
 	shouldRun = false;
-	
-	graphicsCleanUp(GFX);
-	platformCleanUp(&state);
+	for (int i = 0; i < MAX_ENTITIES; i++)
+	{
+		cleanCollider(&ecs.colliders[i]);
+	}	
+	graphicsCleanUp(gState);
+	platformCleanUp(&pState);
 	
 	return false;
 }
@@ -104,6 +107,27 @@ bool Game::physicsUpdate(float dt)
                     v2Mul(ecs.rigidbodies[i].velocity,dt)),
                 {0,GRAVITATIONAL_PULL * dt}
                 );
+
+    	for (int j = 0; j < ecs.entityCount; j++)
+    	{
+    		if (!ecs.isActive[j]) continue;
+    		Vec2 posA = ecs.transforms[i].position;
+    		Vec2 posB = ecs.transforms[j].position;
+    		Collider* colA = &ecs.colliders[i];
+    		Collider* colB = &ecs.colliders[j];
+
+    		if ((i == j || colA->layer != colB->layer )) continue;
+					
+    		bool isColliding = isBoxColliding(posA, getScale(colA), posB, getScale(colB));
+    		colA->isColliding = isColliding;
+    		//colB->isColliding = isColliding;
+
+
+    	}
+
+    	//draw each collider			col = isColliding ? green : red;
+    	Colour col = ecs.colliders[i].isColliding ? green : red;
+    	drawWireSquare(gState, ecs.transforms[i].position, getScale(&ecs.colliders[i]), col);	
     }
 	
 	return true; 

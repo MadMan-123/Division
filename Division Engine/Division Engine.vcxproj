@@ -277,6 +277,7 @@
       <SDLCheck>true</SDLCheck>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+    <ClCompile Include="Engine\Systems\collider.cpp" />
     <ClCompile Include="Engine\Systems\ECS.cpp">
       <AssemblerOutput>NoListing</AssemblerOutput>
       <AssemblerListingLocation>x64\Release\</AssemblerListingLocation>
@@ -583,11 +584,13 @@
     <ClInclude Include="Engine\Core\maths.h" />
     <ClInclude Include="Engine\Core\platform.h" />
     <ClInclude Include="Engine\game.h" />
+    <ClInclude Include="Engine\Systems\collider.h" />
     <ClInclude Include="Engine\Systems\ECS.h" />
     <ClInclude Include="Engine\Systems\graphics.h" />
     <ClInclude Include="Engine\Systems\input.h" />
     <ClInclude Include="Engine\Systems\renderable.h" />
     <ClInclude Include="Engine\Systems\rigidbody.h" />
+    <ClInclude Include="Src\main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

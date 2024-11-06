@@ -111,6 +111,16 @@ void drawFilledSquare(GraphicsState* GFX, Vec2 pos ,Vec2 scale, Colour colour)
 	}
 }
 
+void drawWireSquare(GraphicsState* GFX, Vec2 pos, Vec2 scale, Colour colour)
+{
+	//draw 4 lines to each corner
+	drawLine(GFX,v2Tov2i(pos), v2Tov2i({ pos.x + scale.x, pos.y }), colour);
+	drawLine(GFX,v2Tov2i(pos), v2Tov2i({ pos.x, pos.y + scale.y }), colour);
+	drawLine(GFX,v2Tov2i({ pos.x + scale.x, pos.y }), v2Tov2i({ pos.x + scale.x, pos.y + scale.y }), colour);
+	drawLine(GFX,v2Tov2i({ pos.x, pos.y + scale.y }), v2Tov2i({ pos.x + scale.x, pos.y + scale.y }), colour);
+	
+}
+
 
 void swapBuffers(GraphicsState* state)
 {
