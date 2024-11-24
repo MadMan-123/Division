@@ -3,8 +3,9 @@
 
 #include <windows.h>
 #include <windowsx.h>  // param input extraction 
-#include <stdio.h>
+#include <cstdlib>
 #include "../Systems/graphics.h"
+#include <stdio.h>
 
 static double clockFrequency;
 static LARGE_INTEGER startTime;
@@ -38,6 +39,7 @@ bool platformStart(PlatformState* state, const char* name,int width, int height)
 	//create window specific 
 	//current instance
 	iState->currentHandle = GetModuleHandleA(0);
+	
 	
 	WNDCLASSA wc;
 
@@ -96,7 +98,7 @@ bool platformStart(PlatformState* state, const char* name,int width, int height)
 	SMALL_RECT windowSize = { 10,10,(SHORT)width,(SHORT)height };
 	if (!SetConsoleWindowInfo(iState->hConsole, TRUE, &windowSize))
 	{
-		printf("Console wasnt able to set info correctly");
+		fprintf(stderr,"Console wasnt able to set info correctly\n");
 		return false;
 	}
 

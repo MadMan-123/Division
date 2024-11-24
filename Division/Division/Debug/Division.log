@@ -1,0 +1,4 @@
+﻿  game.cpp
+C:\Users\mwolst300\source\repos\Division\Division\Engine\Game\game.cpp(100,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mwolst300\source\repos\Division\Division\Engine\Game\game.cpp(113,24): warning C4018: '<': signed/unsigned mismatch
+  Division.vcxproj -> C:\Users\mwolst300\source\repos\Division\Division\Debug\Division.dll

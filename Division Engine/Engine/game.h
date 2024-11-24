@@ -31,6 +31,7 @@ private:
 	bool shouldRun = true;
 protected:
 	PlatformState state;
+	GraphicsState* GFX;
 
 
 	// Clock

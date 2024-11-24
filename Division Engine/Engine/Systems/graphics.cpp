@@ -1,7 +1,7 @@
 #include "graphics.h"
 #include <stdio.h>
 #include <cstdio>
-#include <math.h>
+#include <cmath>
 #include <corecrt_malloc.h>
 
 
@@ -106,10 +106,24 @@ void drawFilledSquare(GraphicsState* GFX, Vec2 pos ,Vec2 scale, Colour colour)
 		for(int x = 0; x < scale.x; x++)
 		{
 			//draw square
-			drawPixel(GFX, { (int)pos.x + x, (int)pos.y + y }, colour);
+			drawPixel(GFX, { (int)(pos.x + x - (scale.x /2)), (int)(pos.y + y - (scale.y/2))}, colour);
 		}
 	}
 }
+
+void drawCircle(GraphicsState* state, Vec2 pos, float radius, Colour colour) {
+	float xpos, ypos, radsqr = radius * radius;
+	for (xpos = pos.x - radius; xpos <= pos.x + radius; xpos += 0.1) {
+		float dx = xpos - pos.x;
+		float xsqr = dx * dx;
+		float dy = sqrt(radsqr - xsqr);
+		ypos = pos.y + dy;
+		drawPixel(state, { (int)xpos, (int)ypos }, colour);
+		ypos = pos.y - dy;
+		drawPixel(state, { (int)xpos, (int)ypos }, colour);
+	}
+}
+
 
 
 void swapBuffers(GraphicsState* state)

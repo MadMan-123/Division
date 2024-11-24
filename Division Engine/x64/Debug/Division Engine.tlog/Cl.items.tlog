@@ -2,6 +2,7 @@ C:\Users\Madoc\Desktop\Division\Division Engine\Engine\Core\arena.cpp;C:\Users\M
 C:\Users\Madoc\Desktop\Division\Division Engine\Engine\Core\math.cpp;C:\Users\Madoc\Desktop\Division\Division Engine\x64\Debug\math.obj
 C:\Users\Madoc\Desktop\Division\Division Engine\Engine\Core\windows.cpp;C:\Users\Madoc\Desktop\Division\Division Engine\x64\Debug\windows.obj
 C:\Users\Madoc\Desktop\Division\Division Engine\Engine\Game\game.cpp;C:\Users\Madoc\Desktop\Division\Division Engine\x64\Debug\game.obj
+C:\Users\Madoc\Desktop\Division\Division Engine\Engine\Systems\collider.cpp;C:\Users\Madoc\Desktop\Division\Division Engine\x64\Debug\collider.obj
 C:\Users\Madoc\Desktop\Division\Division Engine\Engine\Systems\ECS.cpp;C:\Users\Madoc\Desktop\Division\Division Engine\x64\Release\ECS.obj
 C:\Users\Madoc\Desktop\Division\Division Engine\Engine\Systems\graphics.cpp;C:\Users\Madoc\Desktop\Division\Division Engine\x64\Debug\graphics.obj
 C:\Users\Madoc\Desktop\Division\Division Engine\Engine\Systems\input.cpp;C:\Users\Madoc\Desktop\Division\Division Engine\x64\Release\input.obj

@@ -17,7 +17,7 @@ Game::Game()
 bool Game::gameRun()
 {
 	double last = platformGetAbsoluteTime();
-	auto GFX = (GraphicsState*)state.graphicsState;
+	GFX = (GraphicsState*)state.graphicsState;
 
 	while (shouldRun)
 	{
@@ -60,6 +60,11 @@ bool Game::gameRun()
 	
 	graphicsCleanUp(GFX);
 	platformCleanUp(&state);
+
+	for (int i = 0; i < MAX_ENTITIES; i++)
+	{
+		cleanCollider(&ecs.colliders[i]);
+	}
 	
 	return false;
 }
@@ -89,9 +94,7 @@ int Game::run()
 bool Game::physicsUpdate(float dt)
 {
 
-	if(!physics(dt))
-	{
-	}
+	if(!physics(dt)){}
     for(int i = 0; i < ecs.entityCount; i++)
     {
         if(!ecs.isActive[i])continue;
@@ -104,6 +107,27 @@ bool Game::physicsUpdate(float dt)
                     v2Mul(ecs.rigidbodies[i].velocity,dt)),
                 {0,GRAVITATIONAL_PULL * dt}
                 );
+		for (int j = 0; j < ecs.entityCount; j++)
+		{
+			if (!ecs.isActive[j]) continue;
+			Vec2 posA = ecs.transforms[i].position;
+			Vec2 posB = ecs.transforms[j].position;
+			Collider* colA = &ecs.colliders[i];
+			Collider* colB = &ecs.colliders[j];
+
+			if ((i == j || colA->layer != colB->layer )) continue;
+					
+			bool isColliding = isCollidingCircle(posA, getRadius(colA), posB, getRadius(colB));
+			colA->isColliding = isColliding;
+			//colB->isColliding = isColliding;
+
+
+		}
+
+		//draw each collider			col = isColliding ? green : red;
+		Colour col = ecs.colliders[i].isColliding ? green : red;
+
+		drawCircle(GFX, ecs.transforms[i].position, getRadius(&ecs.colliders[i]), col);
     }
 	
 	return true; 

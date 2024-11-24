@@ -13,6 +13,7 @@ private:
 	uint32_t aliens[MAX_ALIENS];
 	uint32_t bullets[MAX_BULLETS];
 	uint32_t barriers[MAX_BARRIERS];
+	float force = 100;
 public:
 	bool start() override
 	{
@@ -20,30 +21,35 @@ public:
 		transform.scale  = {10,10};
 		Rigidbody rb = {0};
 		Renderable renderable = {red};
+		Collider* collider = createCircleCollider(10);
+		collider->layer = 0;
 	
 		//player
 		transform.position = {width /2.0f, height - 10.0f};
-		player = addEntity(&ecs, transform, rb, renderable);
+		player = addEntity(&ecs, transform, rb, renderable,*collider);
+
+		renderable.colour = red;
+		transform.scale = { 10,5 };
+		renderable.colour = white;
+		for (int i = 0; i < MAX_BARRIERS; i++)
+		{
+			transform.position = { transform.scale.x * 2.5f * i + 10, height - 20.0f };
+			barriers[i] = addEntity(&ecs, transform, rb, renderable, *collider);
+		}
+
 		renderable = {green};
 		for(int i = 0; i < MAX_ALIENS; i++)
 		{
 			transform.position = {transform.scale.x * 2.5f *  i + 10, 10.0f};
-			aliens[i] = addEntity(&ecs, transform, rb, renderable);
+			aliens[i] = addEntity(&ecs, transform, rb, renderable, *collider);
 		}
-		renderable.colour = red;
-		transform.scale = {10,5};
-		renderable.colour = white;
-		for(int i = 0; i < MAX_BARRIERS; i++)
-		{
-			transform.position = {transform.scale.x * 2.5f * i + 10, height - 20.0f};
-			barriers[i] = addEntity(&ecs, transform, rb, renderable);
-		}
+
 		
 		renderable.colour = {100,0,50,255};
 		transform.scale = {5,5};
 		for(int i = 0; i < MAX_BULLETS; i++)
 		{
-			bullets[i] = addEntity(&ecs, transform, rb, renderable);
+			bullets[i] = addEntity(&ecs, transform, rb, renderable, *collider);
 		    ecs.isActive[bullets[i]] = false;
 		}
 		
@@ -62,6 +68,12 @@ public:
 			ecs.transforms[player].position.x += 100 * dt;
 		}
 
+
+			if (isInputPressed('W'))
+			{
+				ecs.transforms[player].position.y -= 100 * dt;
+			}
+
 		if(isInputPressed('E'))
 		{
 			for(int i = 0; i < MAX_BULLETS; i++)
@@ -72,7 +84,9 @@ public:
 
 				ecs.isActive[currentBullet] = true;
 				ecs.transforms[currentBullet].position = ecs.transforms[player].position;
-				ecs.rigidbodies[currentBullet].velocity.y -= 100000 * dt;
+				ecs.rigidbodies[currentBullet].velocity.y -= force;
+				printf("Bullet Spawned\n ");
+				break;
 				
 				
 			}
@@ -88,6 +102,7 @@ public:
 			if(ecs.transforms[bullets[i]].position.y < 0)
 			{
 				ecs.transforms[bullets[i]].position.y = 0;
+				ecs.rigidbodies[bullets[i]].velocity.y = 0;
 				ecs.isActive[bullets[i]] = false;
 			}
 				
@@ -140,7 +155,7 @@ int main()
 //Big ass TODO list
 //todo:
 //	1. Arena Structure x
-//	2. Make ECS system 
+//	2. Make ECS system x
 //	3. rewrite engine with arenas
-//	4. basic collision
-//	5. input system
+//	4. basic collision 
+//	5. input system x

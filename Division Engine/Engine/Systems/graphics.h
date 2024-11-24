@@ -32,4 +32,5 @@ void clearBuffer(GraphicsState* state, Colour** buffer, Colour colour);
 void clear(GraphicsState* state, Colour colour);
 void drawFilledSquare(GraphicsState* GFX, Vec2i pos, int size, Colour colour);
 void drawFilledSquare(GraphicsState* GFX, Vec2 pos, Vec2 scale, Colour colour);
+void drawCircle(GraphicsState* state, Vec2 pos, float radius, Colour colour);
 
