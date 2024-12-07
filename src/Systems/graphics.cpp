@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <cstdio>
 #include <math.h>
-#include <corecrt_malloc.h>
 
 
 void initGraphics(GraphicsState* state, int height, int width)

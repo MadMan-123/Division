@@ -1,0 +1,68 @@
+# Use cmd.exe explicitly for the shell
+SHELL := cmd.exe
+
+# Compiler and flags
+CC = g++
+CFLAGS = -Wall -Wextra -I./include
+LDFLAGS = -L./bin -luser32 -lgdi32 -lpthread
+LIB_EXT = dll
+RM = del /Q
+CP = copy
+MKDIR = mkdir
+
+# Project directories
+SRC_DIR = src
+OBJ_DIR = .obj
+BIN_DIR = bin
+INC_DIR = include
+
+# Library name
+LIB_NAME = libdivision.$(LIB_EXT)
+
+# Find all source files recursively with .cpp extension
+SRC_FILES := $(shell for /R $(SRC_DIR) %%f in (*.cpp) do @echo %%f)
+OBJ_FILES := $(patsubst $(SRC_DIR)\%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
+
+# Define DIVISION_EXPORT when building the library
+LIB_CFLAGS = $(CFLAGS) -DDIVISION_EXPORT
+
+# Suppress command output for cleaner builds
+MAKEFLAGS += --no-print-directory
+
+# Build targets
+all: $(BIN_DIR)/$(LIB_NAME)
+
+$(BIN_DIR)/$(LIB_NAME): $(OBJ_FILES) | $(BIN_DIR)
+	@echo Building shared library $(LIB_NAME)
+	@echo.
+	@echo "Source files to be compiled:"
+	@echo $(SRC_FILES)
+	@echo
+	$(CC) -shared -o $@ $^ $(LDFLAGS)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@$(MKDIR) $(dir $@)
+	@echo Compiling $< to $@
+	$(CC) $(LIB_CFLAGS) -c $< -o $@
+
+$(BIN_DIR):
+	@$(MKDIR) $@
+
+install: $(BIN_DIR)/$(LIB_NAME)
+	@echo Installing $(LIB_NAME)
+	$(CP) $(INC_DIR)\division.h C:\Windows\System32\Division
+	$(CP) $(BIN_DIR)\$(LIB_NAME) C:\Windows\System32\Division
+
+uninstall:
+	@echo Uninstalling $(LIB_NAME)
+	$(RM) C:\Windows\System32\Division\division.h
+	$(RM) C:\Windows\System32\Division\$(LIB_NAME)
+
+update: uninstall install
+
+clean:
+	@echo Cleaning up object and bin directories
+	$(RM) $(OBJ_DIR)\*.o
+	$(RM) $(BIN_DIR)\$(LIB_NAME)
+
+.PHONY: all install uninstall update clean

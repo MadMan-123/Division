@@ -1,5 +1,5 @@
 
-#include "../../game.h"
+#include "../../include/division.h"
 #include <iostream>
 #include <string>
 

@@ -13,19 +13,24 @@
 
 typedef struct
 {
-    Vec2 position;
-    Vec2 scale;
-    float angle;
+    	Vec2 position;
+    	Vec2 scale;
+    	float angle;
 }Transform;
 
 
 
 // Component Types
 typedef enum {
-    COMPONENT_TRANSFORM = 1 << 0,
-    COMPONENT_RIGIDBODY = 2 << 1,
-    COMPONENT_RENDERABLE = 1 << 2
+    	COMPONENT_TRANSFORM = 1 << 0,
+    	COMPONENT_RIGIDBODY = 2 << 1,
+	COMPONENT_RENDERABLE = 1 << 2
 } ComponentType;
+
+typedef struct{
+	Arena buffer;
+	size_t count;
+}Archetype;
 
 
 
@@ -33,6 +38,7 @@ typedef struct{
     bool isActive[MAX_ENTITIES];
     // Entity signatures
     uint32_t signatures[MAX_ENTITIES];
+    
     
     //TODO: Make true SOA
     // Component arrays (SoA style)
