@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include <cstdlib>
 #ifdef DIVISION_EXPORT
 #define DIVAPI __declspec(dllexport)
 #else

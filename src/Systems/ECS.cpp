@@ -1,6 +1,6 @@
 ﻿#include "ECS.h"
 
-uint32_t addEntity(ECS* ecs, Transform transform, Rigidbody rigidbody,Renderable renderable,Collider collider)
+uint32_t addEntity(ECS* ecs, Transform transform, Rigidbody rigidbody,Renderable renderable,Collider collider, Health health)
 {
     if(ecs->entityCount >= MAX_ENTITIES) return -1;
     uint32_t id = ecs->entityCount;
@@ -8,6 +8,7 @@ uint32_t addEntity(ECS* ecs, Transform transform, Rigidbody rigidbody,Renderable
     ecs->rigidbodies[id] = rigidbody;
     ecs->renderables[id] = renderable;
     ecs->colliders[id] = collider;
+    ecs->healthPools[id] = health;
     ecs->isActive[id] = true;
     ecs->entityCount++;
     return id;

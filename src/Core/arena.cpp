@@ -1,6 +1,5 @@
 ﻿    
 #include "arena.h"
-#include <cstdlib>
 
 bool arenaCreate(Arena* arena, size_t maxSize)
 {

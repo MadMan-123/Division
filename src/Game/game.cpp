@@ -1,5 +1,5 @@
 
-#include "../../game.h"
+#include "../../include/division.h"
 #include <iostream>
 #include <string>
 
@@ -97,35 +97,37 @@ bool Game::physicsUpdate(float dt)
 	if(!physics(dt))
 	{
 	}
-    for(int i = 0; i < ecs.entityCount; i++)
-    {
-        if(!ecs.isActive[i])continue;
-
-        //update position
-        ecs.transforms[i].position =
-            v2Sub(
-                v2Add(
-                    ecs.transforms[i].position,
-                    v2Mul(ecs.rigidbodies[i].velocity,dt)),
-                {0,GRAVITATIONAL_PULL * dt}
-                );
-
-    	for (int j = 0; j < ecs.entityCount; j++)
+    	for(int i = 0; i < ecs.entityCount; i++)
     	{
-    		if (!ecs.isActive[j]) continue;
-    		Vec2 posA = ecs.transforms[i].position;
-    		Vec2 posB = ecs.transforms[j].position;
-    		Collider* colA = &ecs.colliders[i];
-    		Collider* colB = &ecs.colliders[j];
+        	if(!ecs.isActive[i])continue;
 
-    		if ((i == j || colA->layer != colB->layer )) continue;
+        	//update position
+        	ecs.transforms[i].position =
+            	v2Sub(
+                	v2Add(
+                    	ecs.transforms[i].position,
+                    	v2Mul(ecs.rigidbodies[i].velocity,dt)),
+                	{0,GRAVITATIONAL_PULL * dt}
+                	);
+
+    		for (int j = 0; j < ecs.entityCount; j++)
+    		{
+    			if (!ecs.isActive[j]) continue;
+    			Vec2 posA = ecs.transforms[i].position;
+    			Vec2 posB = ecs.transforms[j].position;
+    			Collider* colA = &ecs.colliders[i];
+    			Collider* colB = &ecs.colliders[j];
+
+    			if ((i == j || colA->layer != colB->layer )) continue;
 					
-    		bool isColliding = isBoxColliding(posA, getScale(colA), posB, getScale(colB));
-    		colA->isColliding = isColliding;
-    		//colB->isColliding = isColliding;
+    			bool isColliding = isBoxColliding(posA, getScale(colA), posB, getScale(colB));
+    			colA->isColliding = isColliding;
+    			if(isColliding && &ecs != nullptr)
+				colA->response(i,j,&ecs);
+			//colB->isColliding = isColliding;
 
 
-    	}
+    		}
 
     	//draw each collider			col = isColliding ? green : red;
     	Colour col = ecs.colliders[i].isColliding ? green : red;

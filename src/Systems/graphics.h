@@ -22,7 +22,7 @@ static Colour black = { 0,0,0,255 };
 static Colour green = { 0,255,0,255 };
 static Colour blue = { 0,0,255,255 };
 static Colour transparent = { 0,0,0,0 };
-
+static Colour orange = {255,165,0,1};
 
 DIVAPI void initGraphics(GraphicsState* state, int height, int width);
 DIVAPI void graphicsCleanUp(GraphicsState* state);
