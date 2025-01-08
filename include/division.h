@@ -5,7 +5,10 @@
 #include "../src/Systems/graphics.h"
 #include "../src/Systems/input.h"
 #include "../src/Systems/collider.h"
+#include "../src/Core/coroutine.h"
 #include <cstdio>
+#include <cstdlib>
+#include <stdio.h>
 
 #include "../src/Systems/rigidbody.h"
 #include "../src/Systems/ECS.h"
@@ -22,9 +25,8 @@ public:
 	DIVAPI virtual bool physics(float dt) = 0;
 	int width = 256, height = 256;
 	const char* name = "Test bed";
-
-	
-	ECS ecs = {0};
+	const int targetFPS = 60;	
+	const double targetFrameTime = 1.0 / targetFPS;
 	
 	DIVAPI Game();
 private:
@@ -35,5 +37,6 @@ protected:
 	PlatformState pState;
 	GraphicsState* gState;
 
+	ECS ecs = {0};	
 	// Clock
 };

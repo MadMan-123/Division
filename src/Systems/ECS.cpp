@@ -1,15 +1,21 @@
 ﻿#include "ECS.h"
-
-uint32_t addEntity(ECS* ecs, Transform transform, Rigidbody rigidbody,Renderable renderable,Collider collider, Health health)
+#include <cstring>
+uint32_t addEntity(ECS* current,Transform transform, Rigidbody rigidbody,Renderable renderable,Collider *collider, Health health)
 {
-    if(ecs->entityCount >= MAX_ENTITIES) return -1;
-    uint32_t id = ecs->entityCount;
-    ecs->transforms[id] = transform;
-    ecs->rigidbodies[id] = rigidbody;
-    ecs->renderables[id] = renderable;
-    ecs->colliders[id] = collider;
-    ecs->healthPools[id] = health;
-    ecs->isActive[id] = true;
-    ecs->entityCount++;
+    if(current == NULL) 
+    {
+        printf("ECS not initialized\n");
+        return -1;
+    } 
+    if(current->entityCount >= MAX_ENTITIES) return -1;
+    auto id = current->entityCount;    
+
+    current->colliders[id] = collider;
+    current->transforms[id] = transform;
+    current->rigidbodies[id] = rigidbody;
+    current->renderables[id] = renderable;
+    current->healthPools[id] = health;
+    current->isActive[id] = true;
+    current->entityCount++;
     return id;
 }

@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include <cstdint>
-
+#include <cstdio>
 #include "renderable.h"
 #include "rigidbody.h"
 #include "../Core/arena.h"
 #include "../Core/maths.h"
 #include "collider.h"
+
 
 
 #define MAX_ENTITIES 128
@@ -24,22 +25,27 @@ typedef struct{
 }Health;
 
 typedef struct{
-    bool isActive[MAX_ENTITIES];
-    // Entity signatures
-    uint32_t signatures[MAX_ENTITIES];
+    	bool isActive[MAX_ENTITIES];
+    	// Entity signatures
+    	uint32_t signatures[MAX_ENTITIES];
     
     
-    //TODO: Make true SOA
-    // Component arrays (SoA style)
-    Transform transforms[MAX_ENTITIES];
-    Rigidbody rigidbodies[MAX_ENTITIES];
-    Collider colliders[MAX_ENTITIES];
-    Renderable renderables[MAX_ENTITIES]; 
-    Health healthPools[MAX_ENTITIES];
-    uint32_t entityCount;
+    	//TODO: Make true SOA
+    	// Component arrays (SoA style)
+    	Transform transforms[MAX_ENTITIES];
+    	Rigidbody rigidbodies[MAX_ENTITIES];
+    	Collider* colliders[MAX_ENTITIES];
+    	Renderable renderables[MAX_ENTITIES]; 
+    	Health healthPools[MAX_ENTITIES];
+		uint32_t entityCount;
+		char* tags[MAX_ENTITIES]; 
+	
 }ECS;
 
-DIVAPI uint32_t addEntity(ECS* ecs,Transform transform , Rigidbody rigidbody,Renderable renderable,Collider collider, Health health);
+//static reference to the current ECS
+static ECS* currentECS = NULL;
+
+DIVAPI uint32_t addEntity(ECS* current,Transform transform , Rigidbody rigidbody,Renderable renderable,Collider* collider, Health health);
 
 
 

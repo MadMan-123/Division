@@ -2,10 +2,8 @@
 #pragma once
 #include "../Core/maths.h"
 #include <stdint.h>
-//TODO: Define.h needed
 
 
-#define FNCPTR(name,type,...) type (*name)(__VA_ARGS__)
 
 typedef enum
 {
@@ -18,15 +16,7 @@ typedef struct {
 	bool isColliding;
 	int layer;
 	void* state;
-	FNCPTR(
-			response,
-			void,
-			uint32_t self,
-			uint32_t other,
-			void* ecs
-				
-	);
-
+	void (*response)(uint32_t self, uint32_t other);
 } Collider;
 
 

@@ -124,7 +124,10 @@ bool platformUpdate(PlatformState* state)
 	MSG message;
 	while (PeekMessageA(&message, NULL, 0, 0, PM_REMOVE))
 	{
-
+		if (message.message == WM_QUIT)
+		{
+			return false;  // Signal to the game loop that we should exit
+		}
 		TranslateMessage(&message);
 		DispatchMessageA(&message);
 	}
@@ -158,6 +161,9 @@ LRESULT CALLBACK win32ProcessMessage(HWND hwnd, UINT32 msg, WPARAM w_param, LPAR
 	case WM_ERASEBKGND:
 		return 1;
 	case WM_CLOSE:
+		DestroyWindow(hwnd);
+		PostQuitMessage(0);
+
 		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -270,7 +276,17 @@ double platformGetAbsoluteTime()
 
 void platformSleep(unsigned long long ms)
 {
-	Sleep(ms);
+	if (ms > 0)
+	{
+		Sleep(ms); // Use Sleep for the main part of the delay
+	}
+
+	// Fine-grained wait for sub-millisecond precision
+	double endTime = platformGetAbsoluteTime() + (ms / 1000.0);
+	while (platformGetAbsoluteTime() < endTime)
+	{
+		// Busy-wait until the remaining time has elapsed
+	}
 }
 
 
