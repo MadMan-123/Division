@@ -16,12 +16,15 @@ typedef struct
 
 Collider* createCircleCollider(float radius)
 {
+	//Allocate memory for the collider
 	Collider* allocatedCollider = (Collider*)malloc(sizeof(Collider));
+	//Check if the allocation was successful	
 	if (allocatedCollider == nullptr)
 	{
 		fprintf(stderr, "spherer colider allocation falied\n");
 		return nullptr;
 	}
+	//Set the type of the collider
 	allocatedCollider->type = Circle;
 	allocatedCollider->state = (CircleCollider*)malloc(sizeof(CircleCollider));
 	auto iState = (CircleCollider*)(allocatedCollider->state);
@@ -30,6 +33,7 @@ Collider* createCircleCollider(float radius)
 		fprintf(stderr, "cannot access the internal state for the sphere collider\n");
 		return nullptr;
 	}
+	//Set the radius of the collider
 	iState->radius = radius;
 	allocatedCollider->layer = 0;
 	
@@ -39,12 +43,14 @@ Collider* createCircleCollider(float radius)
 
 Collider* createBoxCollider(Vec2 scale)
 {
+	//Allocate memory for the collider
 	Collider* allocatedCollider = (Collider*)malloc(sizeof(Collider));
 	if (allocatedCollider == nullptr)
 	{
 		fprintf(stderr, "box colider allocation falied\n");
 		return nullptr;
 	}
+	//Set the type of the collider
 	allocatedCollider->type = Box;
 	allocatedCollider->state = (BoxCollider*)malloc(sizeof(BoxCollider));
 	auto iState = (BoxCollider*)(allocatedCollider->state);
@@ -55,7 +61,7 @@ Collider* createBoxCollider(Vec2 scale)
 		return nullptr;
 	}
 
-	
+	//Set the scale of the collider
 	iState->scale = scale;
 	allocatedCollider->layer = 0;
 	
@@ -103,6 +109,7 @@ bool isCircleColliding(Vec2 posA, float radA, Vec2 posB, float radB)
 	return v2Mag(v2Sub(posB, posA)) <= (radA + radB);
 }
 
+//AABB collision detection
 bool isBoxColliding(Vec2 posA, Vec2 scaleA, Vec2 posB, Vec2 scaleB)
 {
 	return (posA.x + scaleA.x >= posB.x && posB.x + scaleB.x >= posA.x) && 

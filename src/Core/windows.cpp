@@ -28,10 +28,13 @@ LRESULT CALLBACK win32ProcessMessage(HWND hwnd, UINT32 msg, WPARAM w_param, LPAR
 
 bool platformStart(PlatformState* state, const char* name,int width, int height)
 {
+	//allocate memory for the internal state
 	state->internalState = malloc(sizeof(InternalState));
 	state->graphicsState = malloc(sizeof(GraphicsState));
 	//cold cast
 	InternalState* iState = (InternalState*)(state->internalState);
+	
+	//null check
 	if (iState == NULL)
 	{
 		return false;
@@ -52,19 +55,25 @@ bool platformStart(PlatformState* state, const char* name,int width, int height)
 	wc.hInstance = iState->currentHandle;
 	wc.lpszClassName = "WindowsStateClass";
 	windowRect = { 0, 0, width, height };
-
+	
+	//register the window class
 	if(!RegisterClassA(&wc))
 	{
 		return false;
 	}
+
+	//set the window style
 	UINT32 windowStyle = WS_OVERLAPPED | WS_SYSMENU | WS_CAPTION;
 	UINT32 windowExStyle = WS_EX_APPWINDOW;
 
 	windowStyle |= WS_MAXIMIZEBOX;
 	windowStyle |= WS_MINIMIZEBOX;
 	windowStyle |= WS_THICKFRAME;
+	
+	// Adjust the window size to account for borders
 	AdjustWindowRectEx(&windowRect, windowStyle, FALSE, windowExStyle);
-
+	
+	//create the window handle
 	HWND handle = CreateWindowExA(
 		windowExStyle,
 		"WindowsStateClass",
@@ -77,24 +86,27 @@ bool platformStart(PlatformState* state, const char* name,int width, int height)
 		iState->currentHandle,
 		0
 	);
-
+	
+	//set the device context
 	iState->hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
+	//null check
 	if (handle == 0)
 	{
 		MessageBoxA(NULL, "Window Creation failed", "Error!", MB_ICONEXCLAMATION | MB_OK);
-			return false;
+		return false;
 	}
 	else
 	{
 		iState->consoleHandle = handle;
 	}
-
+	//show the window
 	ShowWindow(iState->consoleHandle, SW_SHOW);
 
 	//set the name of the window
 	SetWindowTextA(iState->consoleHandle, name);
 	
+	//set the window size
 	SMALL_RECT windowSize = { 10,10,(SHORT)width,(SHORT)height };
 	if (!SetConsoleWindowInfo(iState->hConsole, TRUE, &windowSize))
 	{
@@ -103,16 +115,16 @@ bool platformStart(PlatformState* state, const char* name,int width, int height)
 	}
 
 
-	//todo:  clock setup
-		// Clock setup
+	// Clock setup
 	LARGE_INTEGER frequency;
 	QueryPerformanceFrequency(&frequency);
 	clockFrequency = 1.0 / (double)frequency.QuadPart;
 	QueryPerformanceCounter(&startTime);
-
+	
+	//set the graphics state for later
 	SetWindowLongPtr(iState->consoleHandle, GWLP_USERDATA, (LONG_PTR)state->graphicsState);
 
-	
+	//set the width and height	
 	cWidth = width;
 	cHeight = height;
 
@@ -121,6 +133,7 @@ bool platformStart(PlatformState* state, const char* name,int width, int height)
 }
 bool platformUpdate(PlatformState* state)
 {
+	// Process messages
 	MSG message;
 	while (PeekMessageA(&message, NULL, 0, 0, PM_REMOVE))
 	{
