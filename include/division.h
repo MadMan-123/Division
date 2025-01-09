@@ -23,20 +23,20 @@ public:
 	DIVAPI virtual bool update(float dt) = 0;
 	DIVAPI virtual bool render(float dt) = 0;
 	DIVAPI virtual bool physics(float dt) = 0;
-	int width = 256, height = 256;
+	int width = 384, height = 384;
 	const char* name = "Test bed";
 	const int targetFPS = 60;	
 	const double targetFrameTime = 1.0 / targetFPS;
 	
+
+	bool shouldRun = true;
 	DIVAPI Game();
 private:
 	bool gameRun();
 	bool physicsUpdate(float dt);
-	bool shouldRun = true;
 protected:
 	PlatformState pState;
 	GraphicsState* gState;
-
 	ECS ecs = {0};	
 	// Clock
 };

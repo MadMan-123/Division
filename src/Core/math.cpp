@@ -46,3 +46,10 @@ Vec2 v2iTov2(Vec2i a)
 {
     return {(float)a.x, (float)a.y};
 }
+
+
+
+Vec2 v2Div(Vec2 a, float b)
+{
+	return {(float)(a.x / b),(float)(a.y / b)};
+}

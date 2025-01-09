@@ -51,10 +51,14 @@ Collider* createBoxCollider(Vec2 scale)
 	if (iState == nullptr)
 	{
 		fprintf(stderr, "cannot access the internal state for the box collider\n");
+		free(allocatedCollider);
 		return nullptr;
 	}
+
+	
 	iState->scale = scale;
 	allocatedCollider->layer = 0;
+	
 	return allocatedCollider;
 }
 
@@ -83,7 +87,13 @@ bool setBoxScale(Collider* col, Vec2 scale)
 
 bool cleanCollider(Collider* col)
 {
+	if(col == nullptr)
+		return false;
+	
+	if(col->state == nullptr)
+		return false;
 	free(col->state);
+	col->state = nullptr;
 	free(col);
 	return true;
 }

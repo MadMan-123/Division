@@ -37,8 +37,8 @@ typedef struct{
     	Collider* colliders[MAX_ENTITIES];
     	Renderable renderables[MAX_ENTITIES]; 
     	Health healthPools[MAX_ENTITIES];
-		uint32_t entityCount;
-		char* tags[MAX_ENTITIES]; 
+	uint32_t entityCount;
+	char* tags[MAX_ENTITIES]; 
 	
 }ECS;
 
@@ -46,7 +46,7 @@ typedef struct{
 static ECS* currentECS = NULL;
 
 DIVAPI uint32_t addEntity(ECS* current,Transform transform , Rigidbody rigidbody,Renderable renderable,Collider* collider, Health health);
-
+DIVAPI void setTag(ECS* current, int index, const char* tag);
 
 
 

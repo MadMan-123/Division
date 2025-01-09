@@ -19,3 +19,18 @@ uint32_t addEntity(ECS* current,Transform transform, Rigidbody rigidbody,Rendera
     current->entityCount++;
     return id;
 }
+
+
+
+void setTag(ECS* current, int index, const char* tag)
+{
+	if(current == NULL || index > MAX_ENTITIES)
+	{
+		printf("ECS NOT INITIALISED");
+		return;
+	}
+	
+	current->tags[index] = (char*)malloc(strlen(tag) + 1);
+	strcpy(current->tags[index], tag);
+
+}

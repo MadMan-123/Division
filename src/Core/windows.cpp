@@ -290,4 +290,10 @@ void platformSleep(unsigned long long ms)
 }
 
 
+
+void platformSetTitle(PlatformState* state, const char* title)
+{
+	InternalState* iState = (InternalState*)state->internalState;
+	SetWindowTextA(iState->consoleHandle, title);
+}
 #endif

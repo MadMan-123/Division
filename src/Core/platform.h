@@ -15,3 +15,5 @@ void platformSleep(unsigned long long ms);
 
 void* platformAlloc(size_t bytes);
 
+//change title of window
+DIVAPI void platformSetTitle(PlatformState* state, const char* title);

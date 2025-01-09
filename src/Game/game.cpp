@@ -3,13 +3,16 @@
 #include <iostream>
 #include <string>
 
-#define ECS_TAG_SIZE 50
+#define ECS_TAG_SIZE 10
 Game::Game()
-{		
+{	
+
 
 	for(int i = 0; i < MAX_ENTITIES; i++)
 	{
-		ecs.tags[i] = (char*)malloc(ECS_TAG_SIZE * sizeof(char));	
+
+		ecs.tags[i] = nullptr;	
+	
 	}
 	if (!platformStart(&pState, name,width,height))
 	{
@@ -73,16 +76,23 @@ bool Game::gameRun()
 	shouldRun = false;
 	for (int i = 0; i < MAX_ENTITIES; i++)
 	{
+		if(ecs.tags[i] != nullptr)
+		{
+			printf("%s\n", ecs.tags[i]);
+			char* tag = ecs.tags[i];
+			free(tag);
+	
+		}
 		cleanCollider(ecs.colliders[i]);
-		//allocate tags
-		free(ecs.tags[i]);
+		
+		
 	}	
 	graphicsCleanUp(gState);
 	platformCleanUp(&pState);
 
 	//destroy the ECS
 	
-	return false;
+	return true;
 }
 
 
@@ -103,9 +113,8 @@ int Game::run()
 		return -1; 
 	}
 
-	gameRun();
-	//program success
-	return 0;
+	bool result = gameRun();
+	return result ? 0 : -1;
 
 }
 
@@ -154,15 +163,15 @@ bool Game::physicsUpdate(float dt)
 				if(response != NULL)
 				{
 
-				printf("Response function address: %p\n", (void*)response);
+				//printf("Response function address: %p\n", (void*)response);
 					//printf("%s:%i collided with %s:%i\n\n", ecs.tags[i],i,ecs.tags[j],j);*/
     				
 					//check if address is corrupted
 					if((uintptr_t)response == 0xbaadf00dbaadf00d) 
 					{
-    					fprintf(stderr,"Warning: Detected freed/corrupted response function\n");
-    					continue;
-    				}
+    						fprintf(stderr,"Warning: Detected freed/corrupted response function\n");
+    						continue;
+    					}
 
 					colA->response((uint32_t)i,(uint32_t)j);
 				}
@@ -175,9 +184,6 @@ bool Game::physicsUpdate(float dt)
 		}
     
 
-    	//draw each collider			col = isColliding ? green : red;
-    	Colour col = ecs.colliders[i]->isColliding ? green : red;
-    	drawWireSquare(gState, ecs.transforms[i].position, getScale(ecs.colliders[i]), col);	
    	}
 	
 	return true; 
